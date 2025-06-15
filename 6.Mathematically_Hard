@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAXN = 5000000;
+unsigned int phi[MAXN + 1];
+unsigned long long score_sum[MAXN + 1];
+
+void compute_phi_and_scores() {
+    for (int i = 0; i <= MAXN; i++) phi[i] = i;
+
+    for (int i = 2; i <= MAXN; i++) {
+        if (phi[i] == i) {
+            for (int j = i; j <= MAXN; j += i) {
+                phi[j] -= phi[j] / i;
+            }
+        }
+    }
+
+    for (int i = 2; i <= MAXN; i++) {
+        unsigned long long score = 1ULL * phi[i] * phi[i];
+        score_sum[i] = score_sum[i - 1] + score;
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    compute_phi_and_scores();
+
+    int T;
+    cin >> T;
+    for (int case_num = 1; case_num <= T; ++case_num) {
+        int a, b;
+        cin >> a >> b;
+        cout << "Case " << case_num << ": " << score_sum[b] - score_sum[a - 1] << '\n';
+    }
+
+    return 0;
+}
