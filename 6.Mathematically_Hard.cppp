@@ -2,9 +2,11 @@
 using namespace std;
 
 const int MAXN = 5000000;
-unsigned int phi[MAXN + 1];
-unsigned long long score_sum[MAXN + 1];
+unsigned int phi[MAXN + 1];             //✅ unsigned int (4 bytes) is safe and efficient for storing φ(i) for all i ≤ 5,000,000.
+unsigned long long score_sum[MAXN + 1]; //✅ So unsigned long long (8 bytes) is necessary here to avoid overflow and store large sums.
 
+///This is an efficient algorithm to compute Euler's Totient Function φ(n) for all integers n from 1 to MAXN, using a modified Sieve of Eratosthenes.
+// Euler’s Totient Function φ(n) counts how many integers from 1 to n are coprime with n.
 void compute_phi_and_scores() {
     for (int i = 0; i <= MAXN; i++) phi[i] = i;
 
@@ -38,3 +40,8 @@ int main() {
 
     return 0;
 }
+
+// Array	      Type	             Size (elements)	  Size (bytes)
+// phi[]	    unsigned int	          5,000,001	       ≈ 20 MB
+// score_sum[]	unsigned long long	   5,000,001	       ≈ 40 MB
+// Total		                                          	≈ 60 MB
